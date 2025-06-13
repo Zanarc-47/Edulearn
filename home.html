@@ -1,0 +1,3348 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="utf-8"/>
+  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <title>
+   EduLearn - Interactive Learning Platform
+  </title>
+  <style>
+   * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+            background: linear-gradient(135deg, #ffdc4c 0%, #ffa726 100%);
+            background-image: 
+                radial-gradient(circle at 20% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 40% 80%, rgba(255, 255, 255, 0.1) 0%, transparent 50%),
+                url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" width="60" height="60" viewBox="0 0 60 60"><circle cx="30" cy="30" r="2" fill="rgba(255,255,255,0.1)"/><circle cx="10" cy="10" r="1" fill="rgba(255,255,255,0.08)"/><circle cx="50" cy="10" r="1.5" fill="rgba(255,255,255,0.06)"/><circle cx="10" cy="50" r="1" fill="rgba(255,255,255,0.09)"/><circle cx="50" cy="50" r="1.2" fill="rgba(255,255,255,0.07)"/></svg>');
+            min-height: 100vh;
+            color: #333;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+.page-footer {
+    text-align: center;
+    padding: 20px;
+    background-color: #f8f9fa;
+    margin-top: 30px;
+    font-size: 14px;
+    color: #666;
+}
+        /* Navigation */
+        nav {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .nav-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.8rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffdc4c, #ffa726);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #555;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .nav-links a:hover {
+            color: #ffdc4c;
+            transform: translateY(-2px);
+        }
+
+        .user-info {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .btn {
+            padding: 0.75rem 1.5rem;
+            border: none;
+            border-radius: 50px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ffdc4c, #ffa726);
+            color: #333;
+            font-weight: 700;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(255, 220, 76, 0.4);
+        }
+
+        .btn-secondary {
+            background: transparent;
+            color: #ffdc4c;
+            border: 2px solid #ffdc4c;
+        }
+
+        .btn-secondary:hover {
+            background: #ffdc4c;
+            color: #333;
+        }
+
+        /* Pages */
+        .page {
+            display: none;
+            min-height: calc(100vh - 80px);
+            padding: 2rem 0;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        /* Home Page */
+        .hero {
+            text-align: center;
+            padding: 4rem 0;
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .hero p {
+            font-size: 1.3rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+
+        .features {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 2rem;
+            margin: 4rem 0;
+        }
+
+         .feature-card {
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+        }
+
+        .feature-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+            animation: bounce 2s infinite;
+        }
+
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        .feature-card h3 {
+            color: #333;
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            font-weight: 700;
+        }
+
+        .feature-card p {
+            color: #666;
+            font-size: 1.1rem;
+            line-height: 1.6;
+        }
+
+        /* Educational Games Page Styles */
+        .educational-games-content-section {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .educational-games-title-header {
+            color: white;
+            margin-bottom: 2rem;
+            text-align: center;
+            font-size: 2.5rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            animation: educational-games-bounce 2s infinite;
+            font-weight: 800;
+        }
+
+        @keyframes educational-games-bounce {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+
+        .back-button {
+            background: linear-gradient(45deg, #74b9ff, #0984e3);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            margin-bottom: 2rem;
+            transition: all 0.3s ease;
+        }
+
+        .back-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(116,185,255,0.4);
+        }
+
+        .educational-games-subjects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 3rem;
+        }
+
+        .educational-games-subject-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 2rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .educational-games-subject-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        .educational-games-subject-icon {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            display: block;
+            animation: educational-games-pulse 2s infinite;
+        }
+
+        @keyframes educational-games-pulse {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+            100% { transform: scale(1); }
+        }
+
+        .educational-games-subject-title {
+            color: #333;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .educational-games-subject-description {
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .educational-games-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.8);
+            z-index: 1000;
+            backdrop-filter: blur(5px);
+        }
+
+        .educational-games-modal-content {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 2rem;
+            max-width: 600px;
+            width: 90%;
+            max-height: 80vh;
+            overflow-y: auto;
+            animation: educational-games-modal-appear 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        @keyframes educational-games-modal-appear {
+            from { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+            to { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        }
+
+        .educational-games-modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: #ff4757;
+            color: white;
+            border: none;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+        }
+
+        .educational-games-modal-close:hover {
+            background: #ff3742;
+            transform: rotate(90deg);
+        }
+
+        .educational-games-game-area {
+            text-align: center;
+            padding: 1rem;
+        }
+
+        .educational-games-question-display {
+            font-size: 2rem;
+            margin: 2rem 0;
+            color: #333;
+            font-weight: bold;
+        }
+
+        .educational-games-answer-input {
+            padding: 1rem;
+            font-size: 1.2rem;
+            border: 2px solid #ddd;
+            border-radius: 10px;
+            margin: 1rem;
+            width: 200px;
+            text-align: center;
+        }
+
+        .educational-games-submit-button {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a52);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            margin: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .educational-games-submit-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(255,107,107,0.4);
+        }
+
+        .educational-games-score-display {
+            font-size: 1.5rem;
+            margin: 1rem 0;
+            color: #333;
+        }
+
+        .educational-games-puzzle-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+            max-width: 300px;
+            margin: 2rem auto;
+        }
+
+        .educational-games-puzzle-piece {
+            background: linear-gradient(45deg, #74b9ff, #0984e3);
+            color: white;
+            border: none;
+            padding: 2rem;
+            font-size: 1.5rem;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .educational-games-puzzle-piece:hover {
+            transform: scale(1.05);
+            box-shadow: 0 5px 15px rgba(116,185,255,0.4);
+        }
+
+        .educational-games-puzzle-piece.educational-games-empty {
+            background: #ddd;
+            cursor: default;
+        }
+
+        .educational-games-new-game-button {
+            background: linear-gradient(45deg, #00b894, #00a085);
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            font-size: 1.1rem;
+            border-radius: 25px;
+            cursor: pointer;
+            margin: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .educational-games-new-game-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0,184,148,0.4);
+        }
+
+        .educational-games-feedback-message {
+            padding: 1rem;
+            margin: 1rem 0;
+            border-radius: 10px;
+            font-weight: bold;
+            animation: educational-games-feedback-flash 0.5s ease;
+        }
+
+        @keyframes educational-games-feedback-flash {
+            0% { opacity: 0; transform: scale(0.8); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .educational-games-feedback-correct {
+            background: #d1f2eb;
+            color: #00b894;
+            border: 2px solid #00b894;
+        }
+
+        .educational-games-feedback-incorrect {
+            background: #fadbd8;
+            color: #e74c3c;
+            border: 2px solid #e74c3c;
+        }
+
+        @media (max-width: 768px) {
+            .educational-games-subjects-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .educational-games-title-header {
+                font-size: 2rem;
+            }
+
+            .educational-games-modal-content {
+                width: 95%;
+                padding: 1rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .feature-card {
+                margin: 1rem;
+                padding: 1.5rem;
+            }
+        }
+        /* Login Page */
+        .login-container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: calc(100vh - 80px);
+        }
+
+        .login-form {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 3rem;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 400px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
+            color: #555;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #e1e5e9;
+            border-radius: 10px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #ffdc4c;
+            box-shadow: 0 0 0 3px rgba(255, 220, 76, 0.2);
+        }
+
+        /* Grade Pages */
+        .grade-header {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: white;
+        }
+
+        .grade-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .subjects {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+        }
+
+        .subject-card {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 2rem;
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .subject-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+        }
+
+        .subject-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        /* About Page */
+        .about-content {
+            background: rgba(255, 255, 255, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 3rem;
+            border-radius: 20px;
+            margin: 2rem 0;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+            }
+            
+            .hero h1 {
+                font-size: 2.5rem;
+            }
+            
+            .features {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Access Level Indicator */
+        .access-indicator {
+            background: rgba(255, 193, 7, 0.2);
+            color: #856404;
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+        }
+
+        .premium-feature {
+            opacity: 0.6;
+            position: relative;
+        }
+
+        .premium-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0,0,0,0.1);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .notification {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            background: #4CAF50;
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            z-index: 1001;
+            opacity: 0;
+            transform: translateX(100%);
+            transition: all 0.3s ease;
+        }
+
+        .notification.show {
+            opacity: 1;
+            transform: translateX(0);
+        }
+
+        .error {
+            background: #f44336;
+        }
+    
+.doodle-lines {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    opacity: 0.6;
+    pointer-events: none;
+}
+
+.doodle-lines svg {
+    width: 100%;
+    height: 100%;
+}
+        @media (max-width: 768px) {
+            .rating-form {
+                padding: 2rem;
+                margin: 1rem;
+            }
+            
+            .rating-header h1 {
+                font-size: 2rem;
+            }
+            
+            .star {
+                font-size: 2.5rem;
+            }
+            
+            .category .star {
+                font-size: 1.5rem;
+            }
+            
+            .rating-categories {
+                grid-template-columns: 1fr;
+            }
+        }
+  </style>
+ </head>
+ <body>
+  <!-- Doodle Background SVG -->
+  <div class="doodle-lines">
+   <svg preserveaspectratio="xMidYMid slice" viewbox="0 0 1920 1080">
+    <path d="M0,900 C300,700 700,1000 1000,800 C1300,600 1600,700 1920,500" fill="none" stroke="#ffdc4c" stroke-linecap="round" stroke-width="10">
+    </path>
+    <path d="M0,200 C400,400 800,100 1200,300 C1600,500 1920,200 1920,200" fill="none" stroke="#ffdc4c" stroke-linecap="round" stroke-width="8">
+    </path>
+    <path d="M0,1000 C500,1100 1000,900 1500,1050" fill="none" stroke="#ffdc4c" stroke-linecap="round" stroke-width="6">
+    </path>
+   </svg>
+  </div>
+  <!-- Navigation -->
+<nav>
+   <div class="container">
+    <div class="nav-content">
+     <div class="logo" onclick="showPage('home')" style="cursor: pointer;">
+      🎓 EduLearn
+     </div>
+     <ul class="nav-links">
+      <li>
+       <a onclick="showPage('home')">
+        Home
+       </a>
+      </li>
+      <li>
+       <a id="grade3-link" onclick="showPage('grade3')">
+        Lessons
+       </a>
+      </li>
+      <li>
+       <a id="grade4-link" onclick="showPage('grade4')">
+        Pricing
+       </a>
+      </li>
+      <li>
+       <a onclick="showPage('about')">
+        About
+       </a>
+      </li>
+     </ul>
+     <div class="user-info">
+      <span class="access-indicator" id="user-status">
+       Guest Access
+      </span>
+      <a class="btn btn-primary" href="#" id="auth-btn" onclick="showPage('login')">
+       Login
+      </a>
+     </div>
+    </div>
+   </div>
+  </nav>
+  <div class="container">
+   <!-- Home Page -->
+   <div class="page active" id="home">
+    <div class="hero">
+     <h1 style="
+  font-size: 3.5rem; 
+  font-weight: 800; 
+  margin-bottom: 1rem; 
+  background: linear-gradient(135deg, #ffdc4c, #ffa726);
+  border-radius: 16px; /* Membuat sudut melengkung */
+  padding: 1rem 2rem; /* Memberikan ruang di dalam teks */
+  display: inline-block; /* Agar border-radius bekerja dengan baik */
+">
+  Welcome to EduLearn
+</h1>
+       <p>
+        <h1 style="font-size: 1.8rem; 
+  font-weight: 600; 
+  margin-bottom: 1rem; 
+  background: linear-gradient(135deg, #ffdc4c, #ffa726);
+  border-radius: 16px; /* Membuat sudut melengkung */
+  padding: 1rem 2rem; /* Memberikan ruang di dalam teks */
+  display: inline-block; /* Agar border-radius bekerja dengan baik */">
+  Interactive learning platform designed for young minds
+</h1>
+     </p>
+     <a class="btn btn-primary" href="#" onclick="showPage('login')" style="color: white; background: linear-gradient(135deg, #ffdc4c, #ffa726);">
+      Get Started
+     </a>
+    <div class="features">
+                <div class="feature-card" onclick="showPage('ratings')">
+                    <div class="feature-icon">⭐</div>
+                    <h3>Rate Our Website</h3>
+                    <p>Berikan penilaian dan feedback Anda untuk membantu kami meningkatkan kualitas website pembelajaran.</p>
+                </div>
+
+                <div class="feature-card" onclick="showPage('games')">
+                    <div class="feature-icon">🎮</div>
+                    <h3>Educational Games</h3>
+                    <p>Learning through play with educational games that make complex concepts easy to understand.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+ <!-- Login Page -->
+<div class="page" id="login">
+    <div class="login-container">
+        <form class="login-form" onsubmit="handleLogin(event)">
+            <h2 style="text-align: center; margin-bottom: 2rem; color: #333;">
+                Welcome Back!
+            </h2>
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input id="username" name="username" required type="text"/>
+            </div>
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input id="password" name="password" required type="password"/>
+            </div>
+            <button class="btn btn-primary" style="width: 100%; margin-bottom: 1rem;" type="submit">
+                Login
+            </button>
+            <div style="text-align: center;">
+                <p style="margin-bottom: 1rem; color: #666;">
+                    Don't have an account?
+                </p>
+                             <button class="btn btn-secondary" onclick="continueAsGuest()" style="width: 100%;" type="button">
+                    Continue as Guest
+                </button>
+            </div>
+            <div style="margin-top: 2rem; padding: 1rem; background: #f8f9fa; border-radius: 10px; font-size: 0.9rem;">
+                <strong>Demo Accounts:</strong><br/>
+                Student: student / password<br/>
+                Teacher: teacher / password<br/>
+                Kelvin: kelvin / 112233<br/>
+                Admin: admin / 123123
+            </div>
+        </form>
+    </div>
+</div>
+
+
+  <!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Learning Center - Kelas 7, 8, 9</title>
+</head>
+<body>
+    <!-- Halaman Utama -->
+    <div class="page active" id="grade3">
+        <div class="container">
+            <div class="grade-header">
+                <h1 style="font-size: 1.8rem; 
+                    font-weight: 600; 
+                    margin-bottom: 1rem; 
+                    background: linear-gradient(135deg, #ffdc4c, #ffa726);
+                    border-radius: 16px; 
+                    padding: 1rem 2rem; 
+                    display: inline-block;">
+                    Learning Center
+                </h1>
+            </div>
+            <div class="subjects">
+                <div class="subject-card" onclick="openSubject('math3')">
+                    <div class="subject-icon">7️⃣</div>
+                    <h3>Materi Kelas 7</h3>
+                    <p>Deskripsi Kelas 7</p>
+                </div>
+                <div class="subject-card" onclick="openSubject('math8')">
+                    <div class="subject-icon">8️⃣</div>
+                    <h3>Materi Kelas 8</h3>
+                    <p>Deskripsi Kelas 8</p>
+                </div>
+                <div class="subject-card" onclick="openSubject('math9')">
+                    <div class="subject-icon">9️⃣</div>
+                    <h3>Materi Kelas 9</h3>
+                    <p>Deskripsi Kelas 9</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Halaman Bab Kelas 7 (10 Bab) -->
+    <div class="page" id="math3">
+        <div class="container">
+            <div class="grade-header">
+                <h1 style="font-size: 1.8rem; 
+                    font-weight: 600; 
+                    margin-bottom: 1rem; 
+                    background: linear-gradient(135deg, #ffdc4c, #ffa726);
+                    border-radius: 16px; 
+                    padding: 1rem 2rem; 
+                    display: inline-block;">
+                    Materi Kelas 7 - Pilih Bab
+                </h1>
+                <br>
+                <button onclick="backToGrade3()" class="btn btn-primary" style="margin-top: 1rem;">
+                    ← Kembali
+                </button>
+            </div>
+            <div class="subjects">
+                <div class="subject-card" onclick="openChapter('bab1')">
+                    <div class="subject-icon">1️⃣</div>
+                    <h3>Bab 1</h3>
+                    <p>Bilangan</p>
+                </div>
+                <div class="subject-card" onclick="openChapter('bab2')">
+                    <div class="subject-icon">2️⃣</div>
+                    <h3>Bab 2</h3>
+                    <p>Materi Bab 2</p>
+                </div>
+                <div class="subject-card" onclick="openChapter('bab3')">
+                    <div class="subject-icon">3️⃣</div>
+                    <h3>Bab 3</h3>
+                    <p>Materi Bab 3</p>
+                </div>
+                <div class="subject-card" onclick="openChapter('bab4')">
+                    <div class="subject-icon">4️⃣</div>
+                    <h3>Bab 4</h3>
+                    <p>Materi Bab 4</p>
+                </div>
+                <div class="subject-card" onclick="openChapter('bab5')">
+                    <div class="subject-icon">5️⃣</div>
+                    <h3>Bab 5</h3>
+                    <p>Materi Bab 5</p>
+                </div>
+                <div class="subject-card" onclick="openChapter('bab6')">
+                    <div class="subject-icon">6️⃣</div>
+                    <h3>Bab 6</h3>
+                    <p>Materi Bab 6</p>
+                </div>
+                <div class="subject-card" onclick="openChapter('bab7')">
+                    <div class="subject-icon">7️⃣</div>
+                    <h3>Bab 7</h3>
+                    <p>Materi Bab 7</p>
+                </div>
+                <div class="subject-card" onclick="openChapter('bab8')">
+                    <div class="subject-icon">8️⃣</div>
+                    <h3>Bab 8</h3>
+                    <p>Materi Bab 8</p>
+                </div>
+                <div class="subject-card" onclick="openChapter('bab9')">
+                    <div class="subject-icon">9️⃣</div>
+                    <h3>Bab 9</h3>
+                    <p>Materi Bab 9</p>
+                </div>
+                <div class="subject-card" onclick="openChapter('bab10')">
+                    <div class="subject-icon">🔟</div>
+                    <h3>Bab 10</h3>
+                    <p>Materi Bab 10</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Halaman Bab Kelas 8 (7 Bab) -->
+    <div class="page" id="math8">
+        <div class="container">
+            <div class="grade-header">
+                <h1 style="font-size: 1.8rem; 
+                    font-weight: 600; 
+                    margin-bottom: 1rem; 
+                    background: linear-gradient(135deg, #ffdc4c, #ffa726);
+                    border-radius: 16px; 
+                    padding: 1rem 2rem; 
+                    display: inline-block;">
+                    Materi Kelas 8 - Pilih Bab
+                </h1>
+                <br>
+                <button onclick="backToGrade3()" class="btn btn-primary" style="margin-top: 1rem;">
+                    ← Kembali
+                </button>
+            </div>
+            <div class="subjects">
+                <div class="subject-card" onclick="openChapter8('bab8_1')">
+                    <div class="subject-icon">1️⃣</div>
+                    <h3>Bab 1</h3>
+                    <p>Pola Bilangan</p>
+                </div>
+                <div class="subject-card" onclick="openChapter8('bab8_2')">
+                    <div class="subject-icon">2️⃣</div>
+                    <h3>Bab 2</h3>
+                    <p>Materi Bab 2</p>
+                </div>
+                <div class="subject-card" onclick="openChapter8('bab8_3')">
+                    <div class="subject-icon">3️⃣</div>
+                    <h3>Bab 3</h3>
+                    <p>Materi Bab 3</p>
+                </div>
+                <div class="subject-card" onclick="openChapter8('bab8_4')">
+                    <div class="subject-icon">4️⃣</div>
+                    <h3>Bab 4</h3>
+                    <p>Materi Bab 4</p>
+                </div>
+                <div class="subject-card" onclick="openChapter8('bab8_5')">
+                    <div class="subject-icon">5️⃣</div>
+                    <h3>Bab 5</h3>
+                    <p>Materi Bab 5</p>
+                </div>
+                <div class="subject-card" onclick="openChapter8('bab8_6')">
+                    <div class="subject-icon">6️⃣</div>
+                    <h3>Bab 6</h3>
+                    <p>Materi Bab 6</p>
+                </div>
+                <div class="subject-card" onclick="openChapter8('bab8_7')">
+                    <div class="subject-icon">7️⃣</div>
+                    <h3>Bab 7</h3>
+                    <p>Materi Bab 7</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Halaman Bab Kelas 9 (7 Bab) -->
+    <div class="page" id="math9">
+        <div class="container">
+            <div class="grade-header">
+                <h1 style="font-size: 1.8rem; 
+                    font-weight: 600; 
+                    margin-bottom: 1rem; 
+                    background: linear-gradient(135deg, #ffdc4c, #ffa726);
+                    border-radius: 16px; 
+                    padding: 1rem 2rem; 
+                    display: inline-block;">
+                    Materi Kelas 9 - Pilih Bab
+                </h1>
+                <br>
+                <button onclick="backToGrade3()" class="btn btn-primary" style="margin-top: 1rem;">
+                    ← Kembali
+                </button>
+            </div>
+            <div class="subjects">
+                <div class="subject-card" onclick="openChapter9('bab9_1')">
+                    <div class="subject-icon">1️⃣</div>
+                    <h3>Bab 1</h3>
+                    <p>Operasi Aljabar</p>
+                </div>
+                <div class="subject-card" onclick="openChapter9('bab9_2')">
+                    <div class="subject-icon">2️⃣</div>
+                    <h3>Bab 2</h3>
+                    <p>Materi Bab 2</p>
+                </div>
+                <div class="subject-card" onclick="openChapter9('bab9_3')">
+                    <div class="subject-icon">3️⃣</div>
+                    <h3>Bab 3</h3>
+                    <p>Materi Bab 3</p>
+                </div>
+                <div class="subject-card" onclick="openChapter9('bab9_4')">
+                    <div class="subject-icon">4️⃣</div>
+                    <h3>Bab 4</h3>
+                    <p>Materi Bab 4</p>
+                </div>
+                <div class="subject-card" onclick="openChapter9('bab9_5')">
+                    <div class="subject-icon">5️⃣</div>
+                    <h3>Bab 5</h3>
+                    <p>Materi Bab 5</p>
+                </div>
+                <div class="subject-card" onclick="openChapter9('bab9_6')">
+                    <div class="subject-icon">6️⃣</div>
+                    <h3>Bab 6</h3>
+                    <p>Materi Bab 6</p>
+                </div>
+                <div class="subject-card" onclick="openChapter9('bab9_7')">
+                    <div class="subject-icon">7️⃣</div>
+                    <h3>Bab 7</h3>
+                    <p>Materi Bab 7</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Halaman Bab 7.1 - PDF Viewer -->
+    <div class="page" id="bab1">
+        <div class="container">
+            <div class="grade-header" style="text-align: center; margin-bottom: 2rem;">
+                <h1 style="
+                    font-size: 2.5rem; 
+                    font-weight: 800; 
+                    margin-bottom: 1rem; 
+                    background: linear-gradient(135deg, #ffdc4c, #ffa726); 
+                    border-radius: 16px; 
+                    padding: 1rem 2rem; 
+                    display: inline-block; 
+                    color: #000; 
+                    text-shadow: none;
+                ">
+                    📚 Materi Kelas 7 - Bab 1: Bilangan
+                </h1>
+                <br>
+                <button onclick="backToMath3()" style="
+                    background-color: #1976d2;
+                    color: white;
+                    border: none;
+                    border-radius: 12px;
+                    padding: 0.75rem 1.5rem;
+                    font-size: 1rem;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: background-color 0.3s ease;
+                ">
+                    ← Kembali ke Daftar Bab
+                </button>
+            </div>
+
+            <!-- PDF Viewer Container -->
+            <div style="background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 20px; padding: 2rem; margin-bottom: 2rem;">
+                <div id="pdf-viewer" style="background: #fff; border: 2px solid rgba(255, 220, 76, 0.3); border-radius: 5px; height: 533px; overflow: auto; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.1);"></div>
+                
+                <!-- Navigation Buttons -->
+                <div class="nav-buttons" style="text-align: center; margin-top: 2rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                    <button onclick="prevPage()" class="btn btn-primary" style="min-width: 140px;">
+                        ← Sebelumnya
+                    </button>
+                    <button onclick="nextPage()" class="btn btn-primary" style="min-width: 140px;">
+                        Berikutnya →
+                    </button>
+                </div>
+                    
+                <!-- Progress Bar -->
+                <div id="progress-container" style="margin-top: 1.5rem; background: rgba(255, 255, 255, 0.5); width: 100%; height: 25px; border-radius: 50px; overflow: hidden; border: 1px solid rgba(255, 220, 76, 0.3);">
+                    <div id="progress-bar" style="background: linear-gradient(135deg, #ffdc4c, #ffa726); width: 0%; height: 100%; transition: width 0.3s ease; border-radius: 50px;"></div>
+                </div>
+                <p id="progress-text" style="text-align: center; margin-top: 1rem; font-weight: 600; color: #555; font-size: 1.1rem;">Memuat...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Halaman Bab 8.1 - PDF Viewer -->
+    <div class="page" id="bab8_1">
+        <div class="container">
+            <div class="grade-header" style="text-align: center; margin-bottom: 2rem;">
+                <h1 style="
+                    font-size: 2.5rem; 
+                    font-weight: 800; 
+                    margin-bottom: 1rem; 
+                    background: linear-gradient(135deg, #ffdc4c, #ffa726); 
+                    border-radius: 16px; 
+                    padding: 1rem 2rem; 
+                    display: inline-block; 
+                    color: #000; 
+                    text-shadow: none;
+                ">
+                    📚 Materi Kelas 8 - Bab 1: Pola Bilangan
+                </h1>
+                <br>
+                <button onclick="backToMath8()" style="
+                    background-color: #1976d2;
+                    color: white;
+                    border: none;
+                    border-radius: 12px;
+                    padding: 0.75rem 1.5rem;
+                    font-size: 1rem;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: background-color 0.3s ease;
+                ">
+                    ← Kembali ke Daftar Bab
+                </button>
+            </div>
+
+            <!-- PDF Viewer Container -->
+            <div style="background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 20px; padding: 2rem; margin-bottom: 2rem;">
+                <div id="pdf-viewer-8" style="background: #fff; border: 2px solid rgba(255, 220, 76, 0.3); border-radius: 5px; height: 533px; overflow: auto; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.1);"></div>
+                
+                <!-- Navigation Buttons -->
+                <div class="nav-buttons" style="text-align: center; margin-top: 2rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                    <button onclick="prevPage8()" class="btn btn-primary" style="min-width: 140px;">
+                        ← Sebelumnya
+                    </button>
+                    <button onclick="nextPage8()" class="btn btn-primary" style="min-width: 140px;">
+                        Berikutnya →
+                    </button>
+                </div>
+                
+                <!-- Progress Bar -->
+                <div id="progress-container-8" style="margin-top: 1.5rem; background: rgba(255, 255, 255, 0.5); width: 100%; height: 25px; border-radius: 50px; overflow: hidden; border: 1px solid rgba(255, 220, 76, 0.3);">
+                    <div id="progress-bar-8" style="background: linear-gradient(135deg, #ffdc4c, #ffa726); width: 0%; height: 100%; transition: width 0.3s ease; border-radius: 50px;"></div>
+                </div>
+                <p id="progress-text-8" style="text-align: center; margin-top: 1rem; font-weight: 600; color: #555; font-size: 1.1rem;">Memuat...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Halaman Bab 9.1 - PDF Viewer -->
+    <div class="page" id="bab9_1">
+        <div class="container">
+            <div class="grade-header" style="text-align: center; margin-bottom: 2rem;">
+                <h1 style="
+                    font-size: 2.5rem; 
+                    font-weight: 800; 
+                    margin-bottom: 1rem; 
+                    background: linear-gradient(135deg, #ffdc4c, #ffa726); 
+                    border-radius: 16px; 
+                    padding: 1rem 2rem; 
+                    display: inline-block; 
+                    color: #000; 
+                    text-shadow: none;
+                ">
+                    📚 Materi Kelas 9 - Bab 1: Operasi Aljabar
+                </h1>
+                <br>
+                <button onclick="backToMath9()" style="
+                    background-color: #1976d2;
+                    color: white;
+                    border: none;
+                    border-radius: 12px;
+                    padding: 0.75rem 1.5rem;
+                    font-size: 1rem;
+                    font-weight: 600;
+                    cursor: pointer;
+                    transition: background-color 0.3s ease;
+                ">
+                    ← Kembali ke Daftar Bab
+                </button>
+            </div>
+
+            <!-- PDF Viewer Container -->
+            <div style="background: rgba(255, 255, 255, 0.8); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.3); border-radius: 20px; padding: 2rem; margin-bottom: 2rem;">
+                <div id="pdf-viewer-9" style="background: #fff; border: 2px solid rgba(255, 220, 76, 0.3); border-radius: 5px; height: 533px; overflow: auto; text-align: center; box-shadow: 0 10px 25px rgba(0,0,0,0.1);"></div>
+                
+                <!-- Navigation Buttons -->
+                <div class="nav-buttons" style="text-align: center; margin-top: 2rem; display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                    <button onclick="prevPage9()" class="btn btn-primary" style="min-width: 140px;">
+                        ← Sebelumnya
+                    </button>
+                    <button onclick="nextPage9()" class="btn btn-primary" style="min-width: 140px;">
+                        Berikutnya →
+                    </button>
+                </div>
+                
+                <!-- Progress Bar -->
+                <div id="progress-container-9" style="margin-top: 1.5rem; background: rgba(255, 255, 255, 0.5); width: 100%; height: 25px; border-radius: 50px; overflow: hidden; border: 1px solid rgba(255, 220, 76, 0.3);">
+                    <div id="progress-bar-9" style="background: linear-gradient(135deg, #ffdc4c, #ffa726); width: 0%; height: 100%; transition: width 0.3s ease; border-radius: 50px;"></div>
+                </div>
+                <p id="progress-text-9" style="text-align: center; margin-top: 1rem; font-weight: 600; color: #555; font-size: 1.1rem;">Memuat...</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.4.120/pdf.min.js"></script>
+    <script>
+        // Variabel untuk PDF viewer Kelas 7
+        const url = '../materi/7.1 BILANGAN.pdf';
+        let pdfDoc = null;
+        let currentPage = 1;
+        let viewer = null;
+        let progressBar = null;
+        let progressText = null;
+
+        // Variabel untuk PDF viewer Kelas 8
+        const url8 = '../materi/8.1 Pola Bilangan.pdf';
+        let pdfDoc8 = null;
+        let currentPage8 = 1;
+        let viewer8 = null;
+        let progressBar8 = null;
+        let progressText8 = null;
+
+        // Variabel untuk PDF viewer Kelas 9
+        const url9 = '../materi/9.1 OPERASI ALJABAR.pdf';
+        let pdfDoc9 = null;
+        let currentPage9 = 1;
+        let viewer9 = null;
+        let progressBar9 = null;
+        let progressText9 = null;
+
+        // Fungsi umum
+        function openSubject(subjectId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById(subjectId).classList.add('active');
+        }
+
+        function backToGrade3() {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById('grade3').classList.add('active');
+        }
+
+        // Fungsi untuk Kelas 7
+        function openChapter(chapterId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            if (chapterId === 'bab1') {
+                document.getElementById('bab1').classList.add('active');
+                
+                viewer = document.getElementById('pdf-viewer');
+                progressBar = document.getElementById('progress-bar');
+                progressText = document.getElementById('progress-text');
+                
+                pdfjsLib.getDocument(url).promise.then(function(pdf) {
+                    pdfDoc = pdf;
+                    renderPage(currentPage);
+                });
+            } else {
+                alert('Membuka ' + chapterId.toUpperCase());
+                document.getElementById('math3').classList.add('active');
+            }
+        }
+
+        function backToMath3() {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById('math3').classList.add('active');
+        }
+
+        function renderPage(num) {
+            if (pdfDoc) {
+                pdfDoc.getPage(num).then(function(page) {
+                    const viewport = page.getViewport({ scale: 1.3 });
+                    const canvas = document.createElement("canvas");
+                    const ctx = canvas.getContext('2d');
+                    canvas.height = viewport.height;
+                    canvas.width = viewport.width;
+                    const renderContext = {
+                        canvasContext: ctx,
+                        viewport: viewport
+                    };
+                    viewer.innerHTML = '';
+                    viewer.appendChild(canvas);
+                    page.render(renderContext);
+                    const percent = (num / pdfDoc.numPages) * 100;
+                    progressBar.style.width = percent + "%";
+                    progressText.innerHTML = `📖 Halaman <strong>${num}</strong> dari <strong>${pdfDoc.numPages}</strong>`;
+                });
+            }
+        }
+
+        function nextPage() {
+            if (pdfDoc && currentPage < pdfDoc.numPages) {
+                currentPage++;
+                renderPage(currentPage);
+            }
+        }
+
+        function prevPage() {
+            if (pdfDoc && currentPage > 1) {
+                currentPage--;
+                renderPage(currentPage);
+            }
+        }
+
+        // Fungsi untuk Kelas 8
+        function openChapter8(chapterId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            if (chapterId === 'bab8_1') {
+                document.getElementById('bab8_1').classList.add('active');
+                
+                viewer8 = document.getElementById('pdf-viewer-8');
+                progressBar8 = document.getElementById('progress-bar-8');
+                progressText8 = document.getElementById('progress-text-8');
+                
+                pdfjsLib.getDocument(url8).promise.then(function(pdf) {
+                    pdfDoc8 = pdf;
+                    renderPage8(currentPage8);
+                });
+            } else {
+                alert('Membuka ' + chapterId.toUpperCase());
+                document.getElementById('math8').classList.add('active');
+            }
+        }
+
+        function backToMath8() {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById('math8').classList.add('active');
+        }
+
+        function renderPage8(num) {
+            if (pdfDoc8) {
+                pdfDoc8.getPage(num).then(function(page) {
+                    const viewport = page.getViewport({ scale: 1.3 });
+                    const canvas = document.createElement("canvas");
+                    const ctx = canvas.getContext('2d');
+                    canvas.height = viewport.height;
+                    canvas.width = viewport.width;
+                    const renderContext = {
+                        canvasContext: ctx,
+                        viewport: viewport
+                    };
+                    viewer8.innerHTML = '';
+                    viewer8.appendChild(canvas);
+                    page.render(renderContext);
+                    const percent = (num / pdfDoc8.numPages) * 100;
+                    progressBar8.style.width = percent + "%";
+                    progressText8.innerHTML = `📖 Halaman <strong>${num}</strong> dari <strong>${pdfDoc8.numPages}</strong>`;
+                });
+            }
+        }
+
+        function nextPage8() {
+            if (pdfDoc8 && currentPage8 < pdfDoc8.numPages) {
+                currentPage8++;
+                renderPage8(currentPage8);
+            }
+        }
+
+        function prevPage8() {
+            if (pdfDoc8 && currentPage8 > 1) {
+                currentPage8--;
+                renderPage8(currentPage8);
+            }
+        }
+
+        // Fungsi untuk Kelas 9
+        function openChapter9(chapterId) {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            if (chapterId === 'bab9_1') {
+                document.getElementById('bab9_1').classList.add('active');
+                
+                viewer9 = document.getElementById('pdf-viewer-9');
+                progressBar9 = document.getElementById('progress-bar-9');
+                progressText9 = document.getElementById('progress-text-9');
+                
+                pdfjsLib.getDocument(url9).promise.then(function(pdf) {
+                    pdfDoc9 = pdf;
+                    renderPage9(currentPage9);
+                });
+            } else {
+                alert('Membuka ' + chapterId.toUpperCase());
+                document.getElementById('math9').classList.add('active');
+            }
+        }
+
+        function backToMath9() {
+            document.querySelectorAll('.page').forEach(page => {
+                page.classList.remove('active');
+            });
+            document.getElementById('math9').classList.add('active');
+        }
+
+        function renderPage9(num) {
+            if (pdfDoc9) {
+                pdfDoc9.getPage(num).then(function(page) {
+                    const viewport = page.getViewport({ scale: 1.3 });
+                    const canvas = document.createElement("canvas");
+                    const ctx = canvas.getContext('2d');
+                                        canvas.height = viewport.height;
+                    canvas.width = viewport.width;
+                    const renderContext = {
+                        canvasContext: ctx,
+                        viewport: viewport
+                    };
+                    viewer9.innerHTML = '';
+                    viewer9.appendChild(canvas);
+                    page.render(renderContext);
+                    const percent = (num / pdfDoc9.numPages) * 100;
+                    progressBar9.style.width = percent + "%";
+                    progressText9.innerHTML = `📖 Halaman <strong>${num}</strong> dari <strong>${pdfDoc9.numPages}</strong>`;
+                });
+            }
+        }
+
+        function nextPage9() {
+            if (pdfDoc9 && currentPage9 < pdfDoc9.numPages) {
+                currentPage9++;
+                renderPage9(currentPage9);
+            }
+        }
+
+        function prevPage9() {
+            if (pdfDoc9 && currentPage9 > 1) {
+                currentPage9--;
+                renderPage9(currentPage9);
+            }
+        }
+    </script>
+</body>
+</html>
+
+
+<!-- Pricing Page -->
+<div class="page" id="grade4">
+  <div class="grade-header">
+    <h1 style="color: black;">
+  Paket Harga EduLearn
+</h1>
+<p style="color: black;">
+  Pilih paket belajar yang paling sesuai untuk anak Anda
+</p>
+  </div>
+  <div class="subjects">
+    <div class="subject-card" onclick="selectPlan('basic')">
+      <div class="subject-icon">
+        📚
+      </div>
+      <h3>
+        Paket Dasar
+      </h3>
+      <p>
+        Akses ke 2 mata pelajaran, laporan kemajuan mingguan
+      </p>
+      <div class="price">
+        $19/bulan
+      </div>
+    </div>
+
+    <div class="subject-card" onclick="selectPlan('standard')">
+      <div class="subject-icon">
+        🎓
+      </div>
+      <h3>
+        Paket Standar
+      </h3>
+      <p>
+        Akses ke 4 mata pelajaran, latihan interaktif, evaluasi bulanan
+      </p>
+      <div class="price">
+        $39/bulan
+      </div>
+    </div>
+
+    <div class="subject-card" onclick="selectPlan('premium')">
+      <div class="subject-icon">
+        ⭐
+      </div>
+      <h3>
+        Paket Premium
+      </h3>
+      <p>
+        Semua mata pelajaran, bimbingan privat, jalur belajar yang dipersonalisasi
+      </p>
+      <div class="price">
+        $79/bulan
+      </div>
+    </div>
+
+    <div class="subject-card" onclick="selectPlan('family')">
+      <div class="subject-icon">
+        👨‍👩‍👧‍👦
+      </div>
+      <h3>
+        Paket Keluarga
+      </h3>
+      <p>
+        Untuk hingga 4 anak, semua fitur termasuk, dasbor keluarga
+      </p>
+      <div class="price">
+        $149/bulan
+      </div>
+    </div>
+
+    <div class="subject-card" onclick="selectPlan('trial')">
+      <div class="subject-icon">
+        🆓
+      </div>
+      <h3>
+        Uji Coba Gratis
+      </h3>
+      <p>
+        Uji coba gratis selama 7 hari, fitur dasar, tanpa komitmen
+      </p>
+      <div class="price">
+        GRATIS
+      </div>
+    </div>
+
+    <div class="subject-card" onclick="selectPlan('yearly')">
+      <div class="subject-icon">
+        💰
+      </div>
+      <h3>
+        Diskon Tahunan
+      </h3>
+      <p>
+        Hemat 20% untuk semua paket dengan pembayaran tahunan
+      </p>
+      <div class="price">
+        Hemat 20%
+      </div>
+    </div>
+  </div>
+</div>
+
+       <!-- About Page -->
+<div class="page" id="about">
+  <div class="about-content">
+    <h1 style="color: #ffdc4c; margin-bottom: 2rem;">
+      Tentang Kami
+    </h1>
+
+    <h3 style="color: #555; margin-bottom: 1rem;">
+      Misi Kami
+    </h3>
+    <p style="margin-bottom: 2rem; line-height: 1.6;">
+      Platform ini dikembangkan sebagai bagian dari proyek Ujian Akhir Semester (UAS) mata kuliah kami,
+      di bawah bimbingan Bapak Bayu Mahesa, S.Pd. Kami bertujuan menghadirkan pengalaman belajar
+      Matematika yang interaktif, mudah diakses, dan menyenangkan bagi siswa SMP kelas 1 hingga 3.
+    </p>
+
+    <h3 style="color: #555; margin-bottom: 1rem;">
+      Mengapa Memilih Platform Kami?
+    </h3>
+    <ul style="margin-bottom: 2rem; line-height: 1.8;">
+      <li>
+        <strong>Fokus Matematika SMP:</strong>
+        Materi disusun sesuai kurikulum untuk kelas 7, 8, dan 9.
+      </li>
+      <li>
+        <strong>Pembelajaran Interaktif:</strong>
+        Dilengkapi dengan latihan soal, kuis, dan animasi konsep.
+      </li>
+      <li>
+        <strong>Pemantauan Kemajuan:</strong>
+        Siswa dapat melihat perkembangan belajar mereka secara berkala.
+      </li>
+      <li>
+        <strong>Desain Ramah Pengguna:</strong>
+        Antarmuka sederhana, bersih, dan mudah digunakan.
+      </li>
+    </ul>
+
+    <h3 style="color: #555; margin-bottom: 1rem;">
+      Tim Pengembang
+    </h3>
+    <p style="margin-bottom: 2rem; line-height: 1.6;">
+      Kami adalah mahasiswa yang bekerja sama dalam mengembangkan solusi pembelajaran Matematika digital
+      yang relevan dan bermanfaat:
+      <br/><br/>
+      <strong>Kelvin</strong> – 3224405<br/>
+      <strong>Thomson Tanedy</strong> – 3224401<br/>
+      <strong>Heli Tower Lim</strong> – 3224404<br/>
+      <strong>David</strong> – 3224409
+    </p>
+  </div>
+</div>
+
+   <!-- Rating page -->
+<div class="page" id="ratings">
+    <div class="about-content">
+        <h1 style="color: #ffdc4c; margin-bottom: 2rem;">
+            ⭐ Rate Our Website
+        </h1>
+        <div class="subjects">
+            <div class="subject-card" onclick="openRatingForm('overall')">
+                <div class="subject-icon">
+                    🌟
+                </div>
+                <h3>
+                    Overall Rating
+                </h3>
+                <p>
+                    Berikan penilaian keseluruhan untuk website pembelajaran kami
+                </p>
+            </div>
+        </div>
+        
+        <!-- Rating Form -->
+        <div style="background: #fff9de; padding: 2rem; border-radius: 15px; margin-top: 2rem;">
+            <!-- Name and Email Fields -->
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem;">
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #555;">Nama:</label>
+                    <input type="text" id="userName" placeholder="Masukkan nama Anda" 
+                           style="width: 100%; padding: 0.75rem; border: 2px solid #e1e5e9; border-radius: 8px; font-size: 1rem;">
+                </div>
+                <div>
+                    <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #555;">Email:</label>
+                    <input type="email" id="userEmail" placeholder="email@example.com" 
+                           style="width: 100%; padding: 0.75rem; border: 2px solid #e1e5e9; border-radius: 8px; font-size: 1rem;">
+                </div>
+            </div>
+              <!-- Feedback Box -->
+            <div style="margin-bottom: 2rem;">
+                <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #555;">Komentar/Feedback:</label>
+                <textarea id="userFeedback" placeholder="Berikan komentar atau saran Anda di sini..." 
+                          style="width: 100%; padding: 0.75rem; border: 2px solid #e1e5e9; border-radius: 8px; font-size: 1rem; min-height: 120px; resize: vertical; font-family: inherit;"></textarea>
+            </div>
+            
+            <!-- Star Rating -->
+            <div style="text-align: center; margin-bottom: 2rem;">
+                <label style="display: block; margin-bottom: 1rem; font-weight: 600; color: #555; font-size: 1.1rem;">Rating:</label>
+                <div class="star-rating" style="display: flex; justify-content: center; gap: 0.5rem;">
+                    <span class="star" data-rating="1" onclick="setRating(1)" style="font-size: 2.5rem; color: #ddd; cursor: pointer; transition: color 0.3s ease;">⭐</span>
+                    <span class="star" data-rating="2" onclick="setRating(2)" style="font-size: 2.5rem; color: #ddd; cursor: pointer; transition: color 0.3s ease;">⭐</span>
+                    <span class="star" data-rating="3" onclick="setRating(3)" style="font-size: 2.5rem; color: #ddd; cursor: pointer; transition: color 0.3s ease;">⭐</span>
+                    <span class="star" data-rating="4" onclick="setRating(4)" style="font-size: 2.5rem; color: #ddd; cursor: pointer; transition: color 0.3s ease;">⭐</span>
+                    <span class="star" data-rating="5" onclick="setRating(5)" style="font-size: 2.5rem; color: #ddd; cursor: pointer; transition: color 0.3s ease;">⭐</span>
+                </div>
+                <div id="ratingText" style="margin-top: 1rem; font-weight: 600; color: #666; min-height: 1.5rem;"></div>
+            </div>
+            
+          
+            <!-- Submit Button -->
+            <div style="text-align: center;">
+                <button onclick="submitRating()" class="btn btn-primary" style="padding: 1rem 2rem; background: linear-gradient(135deg, #ffdc4c, #ffa726); border: none; border-radius: 25px; font-weight: 700; cursor: pointer; color: #333;">
+                    🚀 Kirim Rating
+                </button>
+            </div>
+        </div>
+        
+        <!-- Reviews Section -->
+        <div id="reviewsSection" style="margin-top: 3rem;">
+            <h2 style="color: #ffdc4c; margin-bottom: 2rem; text-align: center;">
+                💬 Review dari Users
+            </h2>
+            
+            <!-- Sort Options -->
+            <div style="display: flex; justify-content: center; gap: 1rem; margin-bottom: 2rem;">
+                <button onclick="sortReviews('highest')" id="sortHighest" style="padding: 0.5rem 1rem; background: linear-gradient(135deg, #ffdc4c, #ffa726); border: none; border-radius: 20px; font-weight: 600; cursor: pointer; color: #333; font-size: 0.9rem;">
+                    ⬇️ Highest to Lowest
+                </button>
+                <button onclick="sortReviews('lowest')" id="sortLowest" style="padding: 0.5rem 1rem; background: #e1e5e9; border: none; border-radius: 20px; font-weight: 600; cursor: pointer; color: #666; font-size: 0.9rem;">
+                    ⬆️ Lowest to Highest
+                </button>
+            </div>
+            <div id="reviewsList">
+                <!-- Sample Review -->
+                <div style="background: #fff; padding: 1.5rem; border-radius: 15px; margin-bottom: 1rem; border: 2px solid #e1e5e9;" data-rating="5">
+                    <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                        <div style="width: 50px; height: 50px; background: #e1e5e9; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">
+                            👤
+                        </div>
+                        <div>
+                            <div style="font-weight: 600; color: #333; font-size: 1.1rem;">Anak Orang</div>
+                            <div style="font-size: 0.85rem; color: #888;">BelajarDi@edulearn.com</div>
+                        </div>
+                    </div>
+                    <div style="margin-bottom: 1rem;">
+                        <span style="color: #ffdc4c; font-size: 1.2rem;">⭐</span><span style="color: #ffdc4c; font-size: 1.2rem;">⭐</span><span style="color: #ffdc4c; font-size: 1.2rem;">⭐</span><span style="color: #ffdc4c; font-size: 1.2rem;">⭐</span><span style="color: #ffdc4c; font-size: 1.2rem;">⭐</span>
+                    </div>
+                    <div style="color: #555; line-height: 1.5; margin-bottom: 1rem;">websitenya bagus</div>
+                    <div style="display: flex; align-items: center; gap: 1rem; padding-top: 1rem; border-top: 1px solid #e1e5e9;">
+                        <button onclick="likeReview(this)" style="background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; color: #666; font-size: 0.9rem; padding: 0.5rem; border-radius: 8px; transition: background 0.3s ease;">
+                            <span class="like-icon">👍</span>
+                            <span class="like-count">69</span>
+                        </button>
+                        <button onclick="replyToReview(this)" style="background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; color: #666; font-size: 0.9rem; padding: 0.5rem; border-radius: 8px; transition: background 0.3s ease;">
+                            💬 Reply
+                        </button>
+                        <div style="position: relative; margin-left: auto;">
+                            <button onclick="toggleOptions(this)" style="background: none; border: none; cursor: pointer; color: #666; font-size: 1.2rem; padding: 0.5rem; border-radius: 50%; transition: background 0.3s ease;">
+                                ⋯
+                            </button>
+                            <div class="options-menu" style="display: none; position: absolute; right: 0; top: 100%; background: white; border: 2px solid #e1e5e9; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); z-index: 10; min-width: 120px;">
+                                <button onclick="reportReview(this)" style="width: 100%; text-align: left; background: none; border: none; padding: 0.75rem 1rem; cursor: pointer; color: #666; font-size: 0.9rem; transition: background 0.3s ease;">
+                                    🚩 Report
+                                </button>
+                                <button onclick="shareReview(this)" style="width: 100%; text-align: left; background: none; border: none; padding: 0.75rem 1rem; cursor: pointer; color: #666; font-size: 0.9rem; transition: background 0.3s ease;">
+                                    📤 Share
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+let currentRating = 0;
+
+const ratingTexts = {
+    1: "😞 Sangat Kurang",
+    2: "😐 Kurang", 
+    3: "🙂 Cukup",
+    4: "😊 Baik",
+    5: "🤩 Sangat Baik"
+};
+
+function setRating(rating) {
+    currentRating = rating;
+    const stars = document.querySelectorAll('.star');
+    
+    stars.forEach((star, index) => {
+        if (index < rating) {
+            star.style.color = '#ffdc4c'; // Kuning
+        } else {
+            star.style.color = '#ddd'; // Abu-abu
+        }
+    });
+    
+    // Update rating text
+    document.getElementById('ratingText').textContent = ratingTexts[rating];
+}
+
+function submitRating() {
+    const name = document.getElementById('userName').value;
+    const email = document.getElementById('userEmail').value;
+    const feedback = document.getElementById('userFeedback').value;
+    
+    if (!name.trim()) {
+        alert('Mohon masukkan nama Anda');
+        return;
+    }
+    
+    if (currentRating === 0) {
+        alert('Mohon pilih rating terlebih dahulu');
+        return;
+    }
+    
+    // Data yang akan disimpan/dikirim
+    const ratingData = {
+        name: name,
+        email: email,
+        rating: currentRating,
+        ratingText: ratingTexts[currentRating],
+        feedback: feedback,
+        timestamp: new Date().toISOString()
+    };
+    
+    console.log('Rating submitted:', ratingData);
+    
+    // Add review to the display
+    addReviewToDisplay(ratingData);
+    
+    alert(`Terima kasih ${name}! Rating ${currentRating} bintang telah dikirim.`);
+    
+    // Reset form
+    document.getElementById('userName').value = '';
+    document.getElementById('userEmail').value = '';
+    document.getElementById('userFeedback').value = '';
+    setRating(0);
+}
+
+function openRatingForm(type) {
+    // Function untuk compatibility dengan card click
+    console.log('Opening rating form for:', type);
+}
+
+function addReviewToDisplay(reviewData) {
+    const reviewsList = document.getElementById('reviewsList');
+    
+    // Create star display - only show filled stars
+    let starsDisplay = '';
+    for (let i = 1; i <= reviewData.rating; i++) {
+        starsDisplay += '<span style="color: #ffdc4c; font-size: 1.2rem;">⭐</span>';
+    }
+    
+    // Create review HTML
+    const reviewHTML = `
+        <div style="background: #fff; padding: 1.5rem; border-radius: 15px; margin-bottom: 1rem; border: 2px solid #e1e5e9;">
+            <div style="display: flex; align-items: center; gap: 1rem; margin-bottom: 1rem;">
+                <div style="width: 50px; height: 50px; background: #e1e5e9; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1.5rem;">
+                    👤
+                </div>
+                <div>
+                    <div style="font-weight: 600; color: #333; font-size: 1.1rem;">${reviewData.name}</div>
+                    <div style="font-size: 0.85rem; color: #888;">${reviewData.email}</div>
+                </div>
+            </div>
+            <div style="margin-bottom: 1rem;">
+                ${starsDisplay}
+            </div>
+            ${reviewData.feedback ? `<div style="color: #555; line-height: 1.5; margin-bottom: 1rem;">${reviewData.feedback}</div>` : ''}
+            <div style="display: flex; align-items: center; gap: 1rem; padding-top: 1rem; border-top: 1px solid #e1e5e9;">
+                <button onclick="likeReview(this)" style="background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; color: #666; font-size: 0.9rem; padding: 0.5rem; border-radius: 8px; transition: background 0.3s ease;">
+                    <span class="like-icon">👍</span>
+                    <span class="like-count">0</span>
+                </button>
+                <button onclick="replyToReview(this)" style="background: none; border: none; cursor: pointer; display: flex; align-items: center; gap: 0.5rem; color: #666; font-size: 0.9rem; padding: 0.5rem; border-radius: 8px; transition: background 0.3s ease;">
+                    💬 Reply
+                </button>
+                <div style="position: relative; margin-left: auto;">
+                    <button onclick="toggleOptions(this)" style="background: none; border: none; cursor: pointer; color: #666; font-size: 1.2rem; padding: 0.5rem; border-radius: 50%; transition: background 0.3s ease;">
+                        ⋯
+                    </button>
+                    <div class="options-menu" style="display: none; position: absolute; right: 0; top: 100%; background: white; border: 2px solid #e1e5e9; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1); z-index: 10; min-width: 120px;">
+                        <button onclick="reportReview(this)" style="width: 100%; text-align: left; background: none; border: none; padding: 0.75rem 1rem; cursor: pointer; color: #666; font-size: 0.9rem; transition: background 0.3s ease;">
+                            🚩 Report
+                        </button>
+                        <button onclick="shareReview(this)" style="width: 100%; text-align: left; background: none; border: none; padding: 0.75rem 1rem; cursor: pointer; color: #666; font-size: 0.9rem; transition: background 0.3s ease;">
+                            📤 Share
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // Add to the beginning of reviews list
+    reviewsList.insertAdjacentHTML('afterbegin', reviewHTML);
+    
+    // Add data-rating attribute for sorting
+    const newReview = reviewsList.firstElementChild;
+    newReview.setAttribute('data-rating', reviewData.rating);
+}
+
+let currentSortOrder = 'highest';
+
+function sortReviews(order) {
+    const reviewsList = document.getElementById('reviewsList');
+    const reviews = Array.from(reviewsList.querySelectorAll('[data-rating]'));
+    
+    // Update button styles
+    const highestBtn = document.getElementById('sortHighest');
+    const lowestBtn = document.getElementById('sortLowest');
+    
+    if (order === 'highest') {
+        highestBtn.style.background = 'linear-gradient(135deg, #ffdc4c, #ffa726)';
+        highestBtn.style.color = '#333';
+        lowestBtn.style.background = '#e1e5e9';
+        lowestBtn.style.color = '#666';
+        
+        // Sort highest to lowest
+        reviews.sort((a, b) => parseInt(b.getAttribute('data-rating')) - parseInt(a.getAttribute('data-rating')));
+    } else {
+        lowestBtn.style.background = 'linear-gradient(135deg, #ffdc4c, #ffa726)';
+        lowestBtn.style.color = '#333';
+        highestBtn.style.background = '#e1e5e9';
+        highestBtn.style.color = '#666';
+        
+        // Sort lowest to highest
+        reviews.sort((a, b) => parseInt(a.getAttribute('data-rating')) - parseInt(b.getAttribute('data-rating')));
+    }
+    
+    // Clear and re-append sorted reviews
+    reviewsList.innerHTML = '';
+    reviews.forEach(review => reviewsList.appendChild(review));
+    
+    currentSortOrder = order;
+}
+
+function likeReview(button) {
+    const likeCount = button.querySelector('.like-count');
+    const likeIcon = button.querySelector('.like-icon');
+    let count = parseInt(likeCount.textContent);
+    
+    // Check if already liked (button has yellow color)
+    const isLiked = button.style.color === 'rgb(255, 220, 76)' || button.style.color === '#ffdc4c';
+    
+    if (!isLiked) {
+        // Like the review
+        count++;
+        button.style.color = '#ffdc4c';
+        button.style.background = 'rgba(255, 220, 76, 0.1)';
+        button.setAttribute('data-liked', 'true');
+    } else {
+        // Unlike the review
+        count--;
+        button.style.color = '#666';
+        button.style.background = 'none';
+        button.setAttribute('data-liked', 'false');
+    }
+    
+    likeCount.textContent = count;
+}
+
+function replyToReview(button) {
+    const reviewDiv = button.closest('div[style*="background: #fff"]');
+    let replySection = reviewDiv.querySelector('.reply-section');
+    
+    if (!replySection) {
+        const replyHTML = `
+            <div class="reply-section" style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #e1e5e9;">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #555; font-size: 0.9rem;">Nama:</label>
+                        <input type="text" placeholder="Masukkan nama Anda" style="width: 100%; padding: 0.5rem; border: 2px solid #e1e5e9; border-radius: 8px; font-size: 0.9rem;">
+                    </div>
+                    <div>
+                        <label style="display: block; margin-bottom: 0.5rem; font-weight: 600; color: #555; font-size: 0.9rem;">Email:</label>
+                        <input type="email" placeholder="email@example.com" style="width: 100%; padding: 0.5rem; border: 2px solid #e1e5e9; border-radius: 8px; font-size: 0.9rem;">
+                    </div>
+                </div>
+                <textarea placeholder="Tulis balasan Anda..." style="width: 100%; padding: 0.75rem; border: 2px solid #e1e5e9; border-radius: 8px; font-size: 0.9rem; min-height: 80px; resize: vertical; font-family: inherit; margin-bottom: 0.5rem;"></textarea>
+                <div style="display: flex; gap: 0.5rem;">
+                    <button onclick="submitReply(this)" style="padding: 0.5rem 1rem; background: linear-gradient(135deg, #ffdc4c, #ffa726); border: none; border-radius: 15px; font-weight: 600; cursor: pointer; color: #333; font-size: 0.8rem;">
+                        Kirim
+                    </button>
+                    <button onclick="cancelReply(this)" style="padding: 0.5rem 1rem; background: #e1e5e9; border: none; border-radius: 15px; font-weight: 600; cursor: pointer; color: #666; font-size: 0.8rem;">
+                        Batal
+                    </button>
+                </div>
+            </div>
+        `;
+        reviewDiv.insertAdjacentHTML('beforeend', replyHTML);
+    } else {
+        replySection.style.display = replySection.style.display === 'none' ? 'block' : 'none';
+    }
+}
+
+function submitReply(button) {
+    const replySection = button.closest('.reply-section');
+    const nameInput = replySection.querySelector('input[type="text"]');
+    const emailInput = replySection.querySelector('input[type="email"]');
+    const textarea = replySection.querySelector('textarea');
+    
+    const replyerName = nameInput.value.trim();
+    const replyerEmail = emailInput.value.trim();
+    const replyText = textarea.value.trim();
+    
+    if (!replyerName) {
+        alert('Mohon masukkan nama Anda');
+        return;
+    }
+    
+    if (!replyText) {
+        alert('Mohon tulis balasan Anda');
+        return;
+    }
+    
+    // Create reply display
+    const replyHTML = `
+        <div style="background: #f8f9fa; padding: 1rem; border-radius: 10px; margin-top: 0.5rem; border-left: 3px solid #ffdc4c;">
+            <div style="display: flex; align-items: center; gap: 0.5rem; margin-bottom: 0.5rem;">
+                <div style="width: 30px; height: 30px; background: #e1e5e9; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 1rem;">
+                    👤
+                </div>
+                <div>
+                    <div style="font-weight: 600; color: #333; font-size: 0.9rem;">${replyerName}</div>
+                    ${replyerEmail ? `<div style="font-size: 0.75rem; color: #888;">${replyerEmail}</div>` : ''}
+                </div>
+            </div>
+            <div style="color: #555; font-size: 0.9rem; line-height: 1.4;">${replyText}</div>
+        </div>
+    `;
+    
+    replySection.insertAdjacentHTML('beforebegin', replyHTML);
+    replySection.remove();
+}
+
+function cancelReply(button) {
+    const replySection = button.closest('.reply-section');
+    replySection.remove();
+}
+
+function toggleOptions(button) {
+    const optionsMenu = button.nextElementSibling;
+    const isVisible = optionsMenu.style.display !== 'none';
+    
+    // Close all other open menus
+    document.querySelectorAll('.options-menu').forEach(menu => {
+        menu.style.display = 'none';
+    });
+    
+    // Toggle current menu
+    optionsMenu.style.display = isVisible ? 'none' : 'block';
+}
+
+function reportReview(button) {
+    const confirmed = confirm('Apakah Anda yakin ingin melaporkan review ini?');
+    if (confirmed) {
+        alert('Review telah dilaporkan. Tim kami akan meninjau laporan Anda.');
+    }
+    // Close menu
+    button.closest('.options-menu').style.display = 'none';
+}
+
+function shareReview(button) {
+    // Simple share functionality
+    if (navigator.share) {
+        navigator.share({
+            title: 'Review Website',
+            text: 'Lihat review ini di website kami!'
+        });
+    } else {
+        // Fallback
+        alert('Link review telah disalin! (Fitur share sedang dalam pengembangan)');
+    }
+    // Close menu
+    button.closest('.options-menu').style.display = 'none';
+}
+
+// Close options menu when clicking outside
+document.addEventListener('click', function(event) {
+    if (!event.target.closest('.options-menu') && !event.target.matches('button[onclick="toggleOptions(this)"]')) {
+        document.querySelectorAll('.options-menu').forEach(menu => {
+            menu.style.display = 'none';
+        });
+    }
+});
+</script>
+ <!-- Educational Games Page -->
+    <div class="page" id="games">
+        <div class="educational-games-content-section">
+            <button class="back-button" onclick="showPage('home')">
+                ← Back to Home
+            </button>
+            <h1 class="educational-games-title-header">
+                🎮 Educational Games
+            </h1>
+            <div class="educational-games-subjects-grid">
+                <div class="educational-games-subject-card" onclick="openMathGames()">
+                    <div class="educational-games-subject-icon">🎯</div>
+                    <h3 class="educational-games-subject-title">Math Adventure</h3>
+                    <p class="educational-games-subject-description">
+                        Fun math games that make numbers exciting and engaging
+                    </p>
+                </div>
+                <div class="educational-games-subject-card" onclick="openPuzzleGames()">
+                    <div class="educational-games-subject-icon">🧩</div>
+                    <h3 class="educational-games-subject-title">Brain Puzzles</h3>
+                    <p class="educational-games-subject-description">
+                        Logic puzzles and critical thinking challenges
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Math Games Modal -->
+    <div id="mathGamesModal" class="educational-games-modal-overlay">
+        <div class="educational-games-modal-content">
+            <button class="educational-games-modal-close" onclick="closeModal('mathGamesModal')">&times;</button>
+            <div class="educational-games-game-area">
+                <h2>🎯 Math Adventure</h2>
+                <div class="educational-games-score-display">
+                    Score: <span id="mathScore">0</span> | Level: <span id="mathLevel">1</span>
+                </div>
+                <div class="educational-games-question-display" id="mathQuestion">
+                    Loading...
+                </div>
+                <input type="number" class="educational-games-answer-input" id="mathAnswer" placeholder="Your answer">
+                <br>
+                <button class="educational-games-submit-button" onclick="checkMathAnswer()">Submit Answer</button>
+                <button class="educational-games-new-game-button" onclick="generateMathQuestion()">New Question</button>
+                <div id="mathFeedback" class="educational-games-feedback-message" style="display: none;"></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Puzzle Games Modal -->
+    <div id="puzzleGamesModal" class="educational-games-modal-overlay">
+        <div class="educational-games-modal-content">
+            <button class="educational-games-modal-close" onclick="closeModal('puzzleGamesModal')">&times;</button>
+            <div class="educational-games-game-area">
+                <h2>🧩 Brain Puzzles</h2>
+                <div class="educational-games-score-display">
+                    Moves: <span id="puzzleMoves">0</span>
+                </div>
+                <div class="educational-games-puzzle-grid" id="puzzleGrid">
+                    <!-- Puzzle pieces will be generated here -->
+                </div>
+                <button class="educational-games-new-game-button" onclick="initializePuzzle()">New Puzzle</button>
+                <div id="puzzleFeedback" class="educational-games-feedback-message" style="display: none;"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Page Navigation Functions
+        function showPage(pageId) {
+            // Hide all pages first
+            const allPages = document.querySelectorAll('.page');
+            allPages.forEach(page => {
+                page.classList.remove('active');
+            });
+            
+            // Show the requested page
+            const targetPage = document.getElementById(pageId);
+            if (targetPage) {
+                targetPage.classList.add('active');
+            }
+            
+            // Close any open modals when navigating
+            closeModal('mathGamesModal');
+            closeModal('puzzleGamesModal');
+        }
+
+        // Math Game Variables
+        let mathScore = 0;
+        let mathLevel = 1;
+        let currentMathAnswer = 0;
+
+        // Puzzle Game Variables
+        let puzzleState = [];
+        let puzzleMoves = 0;
+        let emptyIndex = 8;
+
+        // Open Math Games
+        function openMathGames() {
+            document.getElementById('mathGamesModal').style.display = 'block';
+            generateMathQuestion();
+        }
+
+        // Open Puzzle Games
+        function openPuzzleGames() {
+            document.getElementById('puzzleGamesModal').style.display = 'block';
+            initializePuzzle();
+        }
+
+        // Close Modal
+        function closeModal(modalId) {
+            const modal = document.getElementById(modalId);
+            if (modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        // Generate Math Question
+        function generateMathQuestion() {
+            const operations = ['+', '-', '×', '÷'];
+            const operation = operations[Math.floor(Math.random() * operations.length)];
+            
+            let num1, num2, question, answer;
+            
+            switch(operation) {
+                case '+':
+                    num1 = Math.floor(Math.random() * (10 * mathLevel)) + 1;
+                    num2 = Math.floor(Math.random() * (10 * mathLevel)) + 1;
+                    question = `${num1} + ${num2}`;
+                    answer = num1 + num2;
+                    break;
+                case '-':
+                    num1 = Math.floor(Math.random() * (10 * mathLevel)) + 10;
+                    num2 = Math.floor(Math.random() * num1) + 1;
+                    question = `${num1} - ${num2}`;
+                    answer = num1 - num2;
+                    break;
+                case '×':
+                    num1 = Math.floor(Math.random() * (5 * mathLevel)) + 1;
+                    num2 = Math.floor(Math.random() * 10) + 1;
+                    question = `${num1} × ${num2}`;
+                    answer = num1 * num2;
+                    break;
+                case '÷':
+                    answer = Math.floor(Math.random() * (5 * mathLevel)) + 1;
+                    num2 = Math.floor(Math.random() * 9) + 1;
+                    num1 = answer * num2;
+                    question = `${num1} ÷ ${num2}`;
+                    break;
+            }
+            
+            document.getElementById('mathQuestion').textContent = question + ' = ?';
+            document.getElementById('mathAnswer').value = '';
+            document.getElementById('mathFeedback').style.display = 'none';
+            currentMathAnswer = answer;
+        }
+
+        // Check Math Answer
+        function checkMathAnswer() {
+            const userAnswer = parseInt(document.getElementById('mathAnswer').value);
+            const feedback = document.getElementById('mathFeedback');
+            
+            if (userAnswer === currentMathAnswer) {
+                mathScore += 10 * mathLevel;
+                feedback.textContent = '🎉 Correct! Well done!';
+                feedback.className = 'educational-games-feedback-message educational-games-feedback-correct';
+                
+                if (mathScore % 50 === 0) {
+                    mathLevel++;
+                    feedback.textContent += ` Level up! Now Level ${mathLevel}!`;
+                }
+                
+                document.getElementById('mathScore').textContent = mathScore;
+                document.getElementById('mathLevel').textContent = mathLevel;
+                
+                setTimeout(() => {
+                    generateMathQuestion();
+                }, 2000);
+            } else {
+                feedback.textContent = `❌ Incorrect. The answer is ${currentMathAnswer}. Try the next question!`;
+                feedback.className = 'educational-games-feedback-message educational-games-feedback-incorrect';
+            }
+            
+            feedback.style.display = 'block';
+        }
+
+        // Initialize Puzzle
+        function initializePuzzle() {
+            puzzleState = [1, 2, 3, 4, 5, 6, 7, 8, 0];
+            puzzleMoves = 0;
+            emptyIndex = 8;
+            
+            // Shuffle the puzzle
+            for (let i = 0; i < 100; i++) {
+                const possibleMoves = getPossibleMoves();
+                const randomMove = possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
+                swapPieces(emptyIndex, randomMove);
+            }
+            
+            renderPuzzle();
+            document.getElementById('puzzleMoves').textContent = puzzleMoves = 0;
+            document.getElementById('puzzleFeedback').style.display = 'none';
+        }
+
+        // Get Possible Moves
+        function getPossibleMoves() {
+            const moves = [];
+            const row = Math.floor(emptyIndex / 3);
+            const col = emptyIndex % 3;
+            
+            if (row > 0) moves.push(emptyIndex - 3); // Up
+            if (row < 2) moves.push(emptyIndex + 3); // Down
+            if (col > 0) moves.push(emptyIndex - 1); // Left
+            if (col < 2) moves.push(emptyIndex + 1); // Right
+            
+            return moves;
+        }
+
+        // Swap Pieces
+        function swapPieces(index1, index2) {
+            [puzzleState[index1], puzzleState[index2]] = [puzzleState[index2], puzzleState[index1]];
+            emptyIndex = index2;
+        }
+
+        // Render Puzzle
+        function renderPuzzle() {
+            const grid = document.getElementById('puzzleGrid');
+            grid.innerHTML = '';
+            
+            puzzleState.forEach((piece, index) => {
+                const button = document.createElement('button');
+                button.className = piece === 0 ? 'educational-games-puzzle-piece educational-games-empty' : 'educational-games-puzzle-piece';
+                button.textContent = piece === 0 ? '' : piece;
+                button.onclick = () => movePiece(index);
+                grid.appendChild(button);
+            });
+        }
+
+        // Move Piece
+        function movePiece(clickedIndex) {
+            const possibleMoves = getPossibleMoves();
+            
+            if (possibleMoves.includes(clickedIndex)) {
+                swapPieces(emptyIndex, clickedIndex);
+                puzzleMoves++;
+                document.getElementById('puzzleMoves').textContent = puzzleMoves;
+                renderPuzzle();
+                
+                if (checkPuzzleWin()) {
+                    const feedback = document.getElementById('puzzleFeedback');
+                    feedback.textContent = `🎉 Congratulations! You solved it in ${puzzleMoves} moves!`;
+                    feedback.className = 'educational-games-feedback-message educational-games-feedback-correct';
+                    feedback.style.display = 'block';
+                }
+            }
+        }
+
+        // Check Puzzle Win
+        function checkPuzzleWin() {
+            const winState = [1, 2, 3, 4, 5, 6, 7, 8, 0];
+            return puzzleState.every((piece, index) => piece === winState[index]);
+        }
+
+        // Initialize page on load
+        document.addEventListener('DOMContentLoaded', function() {
+            // Show homepage by default
+            showPage('home');
+            
+            // Allow Enter key for math input
+            const mathAnswerInput = document.getElementById('mathAnswer');
+            if (mathAnswerInput) {
+                mathAnswerInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        checkMathAnswer();
+                    }
+                });
+            }
+            
+            // Close modal when clicking outside
+            window.addEventListener('click', function(e) {
+                if (e.target.classList.contains('educational-games-modal-overlay')) {
+                    e.target.style.display = 'none';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
+     <!-- Notification -->
+  <div class="notification" id="notification">
+  </div>
+  <script>
+// User management
+let currentUser = {
+    username: null,
+    role: 'guest', // guest, student, teacher
+    isLoggedIn: false
+};
+
+// Demo users database
+const users = {
+    'student': { password: 'password', role: 'student', name: 'Demo Student', email: 'student@demo.com', status: 'active' },
+    'teacher': { password: 'password', role: 'teacher', name: 'Demo Teacher', email: 'teacher@demo.com', status: 'active' },
+    'kelvin': { password: '112233', role: 'student', name: 'Kelvin', email: 'kelvin@demo.com', status: 'active' },
+    'admin': { password: '123123', role: 'admin', name: 'Admin User', email: 'admin@demo.com', status: 'active' }
+};
+
+// Deleted users storage
+let deletedUsers = {};
+
+// Initialize the app
+function init() {
+    updateNavigation();
+    showPage('home');
+}
+
+// Page navigation
+function showPage(pageId) {
+    // Hide all pages
+    const pages = document.querySelectorAll('.page');
+    pages.forEach(page => page.classList.remove('active'));
+    
+    // Show selected page
+    const targetPage = document.getElementById(pageId);
+    if (targetPage) {
+        targetPage.classList.add('active');
+    }
+    
+    // Check access for grade pages
+    if ((pageId === 'grade3' ) && !currentUser.isLoggedIn) {
+        showNotification('Please login to access our contents', 'error');
+        showPage('login');
+        return;
+    }
+    try {
+    if ((pageId === 'grade3') && !currentUser.isLoggedIn) {
+        console.log('Condition met, showing notification'); // debug line
+        showNotification('Please login to access our contents', 'error');
+        showPage('login');
+        return;
+    }
+} catch (error) {
+    console.error('Error in grade check:', error);
+}
+
+    // Check admin access
+    if (pageId === 'admin-panel' && currentUser.role !== 'admin') {
+        showNotification('Access denied. Admin privileges required.', 'error');
+        showPage('home');
+        return;
+    }
+
+    // Load admin panel content
+    if (pageId === 'admin-panel') {
+        loadAdminPanel();
+    }
+}
+
+// Handle login
+function handleLogin(event) {
+    event.preventDefault();
+    
+    const usernameEl = document.getElementById('username');
+    const passwordEl = document.getElementById('password');
+    
+    if (!usernameEl || !passwordEl) {
+        showNotification('Login form elements not found', 'error');
+        return;
+    }
+    
+    const username = usernameEl.value;
+    const password = passwordEl.value;
+    
+    if (users[username] && users[username].password === password && users[username].status === 'active') {
+        currentUser.username = username;
+        currentUser.role = users[username].role;
+        currentUser.isLoggedIn = true;
+        
+        updateNavigation();
+        showNotification(`Welcome back, ${username}!`, 'success');
+        showPage('home');
+        
+        // Clear form
+        usernameEl.value = '';
+        passwordEl.value = '';
+    } else if (users[username] && users[username].status === 'inactive') {
+        showNotification('Account is inactive. Please contact administrator.', 'error');
+    } else {
+        showNotification('Invalid username or password', 'error');
+    }
+}
+
+// Continue as guest
+function continueAsGuest() {
+    currentUser.role = 'guest';
+    currentUser.isLoggedIn = false;
+    updateNavigation();
+    showNotification('Continuing as guest - limited access', 'success');
+    showPage('home');
+}
+
+// Logout
+function logout() {
+    currentUser = {
+        username: null,
+        role: 'guest',
+        isLoggedIn: false
+    };
+    updateNavigation();
+    showNotification('Logged out successfully', 'success');
+    showPage('home');
+}
+
+// Update navigation based on user status
+function updateNavigation() {
+    const userStatus = document.getElementById('user-status');
+    const authBtn = document.getElementById('auth-btn');
+    const grade3Link = document.getElementById('grade3-link');
+    const grade4Link = document.getElementById('grade4-link');
+    
+    // Add admin panel link to navigation if user is admin
+    let adminLink = document.getElementById('admin-link');
+    if (currentUser.role === 'admin' && !adminLink) {
+        const nav = document.querySelector('nav ul');
+        if (nav) {
+            const adminLi = document.createElement('li');
+            adminLi.innerHTML = '<a href="#" id="admin-link" onclick="showPage(\'admin-panel\')">Admin Panel</a>';
+            nav.appendChild(adminLi);
+        }
+    } else if (currentUser.role !== 'admin' && adminLink) {
+        adminLink.parentElement.remove();
+    }
+    
+    if (currentUser.isLoggedIn) {
+        let roleDisplay = currentUser.role.charAt(0).toUpperCase() + currentUser.role.slice(1);
+        if (currentUser.role === 'admin') {
+            roleDisplay = '👑 Admin';
+        }
+        if (userStatus) {
+            userStatus.textContent = `${roleDisplay}: ${currentUser.username}`;
+            userStatus.className = 'access-indicator';
+        }
+        if (authBtn) {
+            authBtn.textContent = 'Logout';
+            authBtn.onclick = logout;
+        }
+        
+        // Show premium overlays for guests
+        document.querySelectorAll('.premium-overlay').forEach(overlay => {
+            overlay.style.display = 'none';
+        });
+        document.querySelectorAll('.premium-feature').forEach(feature => {
+            feature.style.opacity = '1';
+        });
+    } else {
+        if (userStatus) {
+            userStatus.textContent = 'Guest Access';
+            userStatus.className = 'access-indicator';
+        }
+        if (authBtn) {
+            authBtn.textContent = 'Login';
+            authBtn.onclick = () => showPage('login');
+        }
+        
+        // Show premium overlays for guests
+        if (currentUser.role === 'guest') {
+            document.querySelectorAll('.premium-overlay').forEach(overlay => {
+                overlay.style.display = 'flex';
+            });
+        }
+    }
+}
+
+// Load Admin Panel with enhanced design
+function loadAdminPanel() {
+    let adminPanel = document.getElementById('admin-panel');
+    
+    // Create admin panel if it doesn't exist
+    if (!adminPanel) {
+        adminPanel = document.createElement('div');
+        adminPanel.id = 'admin-panel';
+        adminPanel.className = 'page';
+        document.body.appendChild(adminPanel);
+    }
+
+    adminPanel.innerHTML = `
+        <div class="container">
+            <div class="admin-header">
+                <h1>👑 Admin Dashboard</h1>
+                <p>Manage users and system settings</p>
+            </div>
+            
+            <div class="admin-stats">
+                <div class="stat-card">
+                    <div class="stat-icon">👥</div>
+                    <div class="stat-info">
+                        <h3>${Object.keys(users).length}</h3>
+                        <p>Active Users</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">🗑️</div>
+                    <div class="stat-info">
+                        <h3>${Object.keys(deletedUsers).length}</h3>
+                        <p>Deleted Users</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">👨‍🎓</div>
+                    <div class="stat-info">
+                        <h3>${Object.values(users).filter(u => u.role === 'student').length}</h3>
+                        <p>Students</p>
+                    </div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon">👨‍🏫</div>
+                    <div class="stat-info">
+                        <h3>${Object.values(users).filter(u => u.role === 'teacher').length}</h3>
+                        <p>Teachers</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="admin-tabs">
+                <button onclick="showAdminTab('users')" id="users-tab" class="tab-btn active">
+                    <span class="tab-icon">👥</span>
+                    Manage Users
+                </button>
+                <button onclick="showAdminTab('deleted')" id="deleted-tab" class="tab-btn">
+                    <span class="tab-icon">🗑️</span>
+                    Deleted Users
+                </button>
+                <button onclick="showAdminTab('add')" id="add-tab" class="tab-btn">
+                    <span class="tab-icon">➕</span>
+                    Add User
+                </button>
+            </div>
+            
+            <div class="admin-content">
+                <div id="users-content" class="tab-content active">
+                    ${generateUsersTable()}
+                </div>
+                
+                <div id="deleted-content" class="tab-content">
+                    ${generateDeletedUsersTable()}
+                </div>
+                
+                <div id="add-content" class="tab-content">
+                    ${generateAddUserForm()}
+                </div>
+            </div>
+        </div>
+        
+        <style>
+            .admin-header {
+                text-align: center;
+                margin-bottom: 3rem;
+                color: white;
+                padding: 2rem 0;
+            }
+            
+            .admin-header h1 {
+                font-size: 3rem;
+                margin-bottom: 0.5rem;
+                text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            }
+            
+            .admin-header p {
+                font-size: 1.2rem;
+                opacity: 0.9;
+            }
+            
+            .admin-stats {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+                gap: 1.5rem;
+                margin-bottom: 3rem;
+            }
+            
+            .stat-card {
+                background: rgba(255, 255, 255, 0.9);
+                backdrop-filter: blur(10px);
+                padding: 2rem;
+                border-radius: 20px;
+                display: flex;
+                align-items: center;
+                gap: 1rem;
+                border: 1px solid rgba(255, 255, 255, 0.3);
+                transition: all 0.3s ease;
+            }
+            
+            .stat-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 15px 30px rgba(0,0,0,0.1);
+            }
+            
+            .stat-icon {
+                font-size: 2.5rem;
+                opacity: 0.8;
+            }
+            
+            .stat-info h3 {
+                font-size: 2rem;
+                margin: 0;
+                color: #ffdc4c;
+                font-weight: 800;
+            }
+            
+            .stat-info p {
+                margin: 0;
+                color: #666;
+                font-weight: 500;
+            }
+            
+            .admin-tabs {
+                display: flex;
+                gap: 1rem;
+                margin-bottom: 2rem;
+                flex-wrap: wrap;
+            }
+            
+            .tab-btn {
+                background: rgba(255, 255, 255, 0.8);
+                border: none;
+                padding: 1rem 2rem;
+                border-radius: 15px;
+                cursor: pointer;
+                display: flex;
+                align-items: center;
+                gap: 0.5rem;
+                font-weight: 600;
+                color: #666;
+                transition: all 0.3s ease;
+                backdrop-filter: blur(10px);
+            }
+            
+            .tab-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+            }
+            
+            .tab-btn.active {
+                background: linear-gradient(135deg, #ffdc4c, #ffa726);
+                color: #333;
+            }
+            
+            .tab-icon {
+                font-size: 1.2rem;
+            }
+            
+            .admin-content {
+                background: rgba(255, 255, 255, 0.9);
+                backdrop-filter: blur(10px);
+                border-radius: 20px;
+                padding: 2rem;
+                border: 1px solid rgba(255, 255, 255, 0.3);
+                box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            }
+            
+            .tab-content {
+                display: none;
+            }
+            
+            .tab-content.active {
+                display: block;
+            }
+            
+            .users-table {
+                width: 100%;
+                border-collapse: collapse;
+                margin-top: 1rem;
+                border-radius: 15px;
+                overflow: hidden;
+                box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            }
+            
+            .users-table th {
+                background: linear-gradient(135deg, #ffdc4c, #ffa726);
+                color: #333;
+                padding: 1rem;
+                text-align: left;
+                font-weight: 700;
+                border: none;
+            }
+            
+            .users-table td {
+                padding: 1rem;
+                border-bottom: 1px solid #f0f0f0;
+                background: white;
+            }
+            
+            .users-table tr:hover td {
+                background: #f8f9fa;
+            }
+            
+            .action-btn {
+                padding: 0.5rem 1rem;
+                border: none;
+                border-radius: 8px;
+                cursor: pointer;
+                font-weight: 600;
+                margin-right: 0.5rem;
+                transition: all 0.3s ease;
+                font-size: 0.85rem;
+            }
+            
+            .btn-edit {
+                background: #ffc107;
+                color: #333;
+            }
+            
+            .btn-edit:hover {
+                background: #e0a800;
+                transform: translateY(-1px);
+            }
+            
+            .btn-delete {
+                background: #dc3545;
+                color: white;
+            }
+            
+            .btn-delete:hover {
+                background: #c82333;
+                transform: translateY(-1px);
+            }
+            
+            .btn-recover {
+                background: #28a745;
+                color: white;
+            }
+            
+            .btn-recover:hover {
+                background: #218838;
+                transform: translateY(-1px);
+            }
+            
+            .user-form {
+                max-width: 600px;
+                margin: 0 auto;
+            }
+            
+            .form-grid {
+                display: grid;
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 1.5rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            .form-field {
+                display: flex;
+                flex-direction: column;
+            }
+            
+            .form-field label {
+                margin-bottom: 0.5rem;
+                font-weight: 600;
+                color: #333;
+            }
+            
+            .form-field input,
+            .form-field select {
+                padding: 1rem;
+                border: 2px solid #e1e5e9;
+                border-radius: 10px;
+                font-size: 1rem;
+                transition: all 0.3s ease;
+                background: white;
+            }
+            
+            .form-field input:focus,
+            .form-field select:focus {
+                outline: none;
+                border-color: #ffdc4c;
+                box-shadow: 0 0 0 3px rgba(255, 220, 76, 0.2);
+            }
+            
+            .submit-btn {
+                background: linear-gradient(135deg, #ffdc4c, #ffa726);
+                color: #333;
+                border: none;
+                padding: 1rem 2rem;
+                border-radius: 10px;
+                font-weight: 700;
+                cursor: pointer;
+                transition: all 0.3s ease;
+                font-size: 1rem;
+                width: 100%;
+            }
+            
+            .submit-btn:hover {
+                transform: translateY(-2px);
+                box-shadow: 0 10px 25px rgba(255, 220, 76, 0.4);
+            }
+            
+            .role-badge {
+                padding: 0.25rem 0.75rem;
+                border-radius: 20px;
+                font-size: 0.8rem;
+                font-weight: 600;
+                text-transform: uppercase;
+            }
+            
+            .role-student {
+                background: #e3f2fd;
+                color: #1976d2;
+            }
+            
+            .role-teacher {
+                background: #f3e5f5;
+                color: #7b1fa2;
+            }
+            
+            .role-admin {
+                background: #fff3e0;
+                color: #f57c00;
+            }
+            
+            .status-badge {
+                padding: 0.25rem 0.75rem;
+                border-radius: 20px;
+                font-size: 0.8rem;
+                font-weight: 600;
+                text-transform: uppercase;
+            }
+            
+            .status-active {
+                background: #e8f5e8;
+                color: #2e7d32;
+            }
+            
+            .status-inactive {
+                background: #ffebee;
+                color: #c62828;
+            }
+            
+            .empty-state {
+                text-align: center;
+                padding: 3rem;
+                color: #666;
+            }
+            
+            .empty-state-icon {
+                font-size: 4rem;
+                margin-bottom: 1rem;
+                opacity: 0.5;
+            }
+            
+            @media (max-width: 768px) {
+                .admin-stats {
+                    grid-template-columns: repeat(2, 1fr);
+                }
+                
+                .admin-tabs {
+                    flex-direction: column;
+                }
+                
+                .tab-btn {
+                    justify-content: center;
+                }
+                
+                .users-table {
+                    font-size: 0.85rem;
+                }
+                
+                .users-table th,
+                .users-table td {
+                    padding: 0.5rem;
+                }
+                
+                .form-grid {
+                    grid-template-columns: 1fr;
+                }
+            }
+        </style>
+    `;
+    
+    // Set initial active tab
+    showAdminTab('users');
+}
+
+// Show admin tab with enhanced styling
+function showAdminTab(tabName) {
+    // Hide all content divs
+    const contents = document.querySelectorAll('.tab-content');
+    contents.forEach(content => {
+        content.classList.remove('active');
+    });
+    
+    // Reset all tab buttons
+    const tabs = document.querySelectorAll('.tab-btn');
+    tabs.forEach(tab => {
+        tab.classList.remove('active');
+    });
+    
+    // Show selected content and highlight tab
+    const selectedContent = document.getElementById(`${tabName}-content`);
+    const selectedTab = document.getElementById(`${tabName}-tab`);
+    
+    if (selectedContent) {
+        selectedContent.classList.add('active');
+    }
+    if (selectedTab) {
+        selectedTab.classList.add('active');
+    }
+    
+    // Refresh content
+    if (tabName === 'users') {
+        document.getElementById('users-content').innerHTML = generateUsersTable();
+    } else if (tabName === 'deleted') {
+        document.getElementById('deleted-content').innerHTML = generateDeletedUsersTable();
+    }
+}
+
+// Generate enhanced users table
+function generateUsersTable() {
+    let html = '<h3 style="margin-bottom: 1.5rem; color: #333;">👥 Active Users Management</h3>';
+    html += '<div style="overflow-x: auto;">';
+    html += '<table class="users-table">';
+    html += '<thead><tr><th>Username</th><th>Name</th><th>Email</th><th>Role</th><th>Status</th><th>Actions</th></tr></thead>';
+    html += '<tbody>';
+    
+    for (let username in users) {
+        const user = users[username];
+        const roleClass = `role-${user.role}`;
+        const statusClass = `status-${user.status || 'active'}`;
+        
+        html += `
+            <tr>
+                <td style="font-weight: 600;">${username}</td>
+                <td>${user.name || 'N/A'}</td>
+                <td>${user.email || 'N/A'}</td>
+                <td><span class="role-badge ${roleClass}">${user.role}</span></td>
+                <td><span class="status-badge ${statusClass}">${user.status || 'active'}</span></td>
+                <td>
+                    <button onclick="editUser('${username}')" class="action-btn btn-edit">✏️ Edit</button>
+                    <button onclick="deleteUser('${username}')" class="action-btn btn-delete">🗑️ Delete</button>
+                </td>
+            </tr>
+        `;
+    }
+    html += '</tbody></table></div>';
+    return html;
+}
+
+// Generate enhanced deleted users table
+function generateDeletedUsersTable() {
+    let html = '<h3 style="margin-bottom: 1.5rem; color: #333;">🗑️ Deleted Users</h3>';
+    
+    if (Object.keys(deletedUsers).length === 0) {
+        html += `
+            <div class="empty-state">
+                <div class="empty-state-icon">🗑️</div>
+                <h4>No Deleted Users</h4>
+                <p>All users are currently active. Deleted users will appear here.</p>
+            </div>
+        `;
+        return html;
+    }
+    
+    html += '<div style="overflow-x: auto;">';
+    html += '<table class="users-table">';
+    html += '<thead><tr><th>Username</th><th>Name</th><th>Email</th><th>Role</th><th>Deleted Date</th><th>Actions</th></tr></thead>';
+    html += '<tbody>';
+    
+    for (let username in deletedUsers) {
+        const user = deletedUsers[username];
+        const roleClass = `role-${user.role}`;
+        
+        html += `
+            <tr>
+                <td style="font-weight: 600;">${username}</td>
+                <td>${user.name || 'N/A'}</td>
+                <td>${user.email || 'N/A'}</td>
+                <td><span class="role-badge ${roleClass}">${user.role}</span></td>
+                <td>${user.deletedDate}</td>
+                <td>
+                    <button onclick="recoverUser('${username}')" class="action-btn btn-recover">🔄 Recover</button>
+                    <button onclick="permanentDelete('${username}')" class="action-btn btn-delete">❌ Permanent</button>
+                </td>
+            </tr>
+        `;
+    }
+    html += '</tbody></table></div>';
+    return html;
+}
+
+// Generate enhanced add user form
+function generateAddUserForm() {
+    return `
+        <h3 style="margin-bottom: 1.5rem; color: #333;">➕ Add New User</h3>
+        <form onsubmit="addUser(event)" class="user-form">
+            <div class="form-grid">
+                <div class="form-field">
+                    <label>Username *</label>
+                    <input type="text" id="new-username" required placeholder="Enter username">
+                </div>
+                <div class="form-field">
+                    <label>Full Name *</label>
+                    <input type="text" id="new-name" required placeholder="Enter full name">
+                </div>
+                <div class="form-field">
+                    <label>Email Address *</label>
+                    <input type="email" id="new-email" required placeholder="Enter email address">
+                </div>
+                <div class="form-field">
+                    <label>Password *</label>
+                    <input type="password" id="new-password" required placeholder="Enter password">
+                </div>
+                <div class="form-field">
+                    <label>Role *</label>
+                    <select id="new-role" required>
+                        <option value="student">👨‍🎓 Student</option>
+                        <option value="teacher">👨‍🏫 Teacher</option>
+                        <option value="admin">👑 Admin</option>
+                    </select>
+                </div>
+                <div class="form-field">
+                    <label>Status</label>
+                    <select id="new-status">
+                        <option value="active">✅ Active</option>
+                        <option value="inactive">❌ Inactive</option>
+                    </select>
+                </div>
+            </div>
+            <button type="submit" class="submit-btn">➕ Add User</button>
+        </form>
+    `;
+}
+
+// Add new user
+function addUser(event) {
+    event.preventDefault();
+    
+    const usernameEl = document.getElementById('new-username');
+    const nameEl = document.getElementById('new-name');
+    const emailEl = document.getElementById('new-email');
+    const passwordEl = document.getElementById('new-password');
+    const roleEl = document.getElementById('new-role');
+    const statusEl = document.getElementById('new-status');
+    
+    if (!usernameEl || !nameEl || !emailEl || !passwordEl || !roleEl || !statusEl) {
+        showNotification('Form elements not found!', 'error');
+        return;
+    }
+    
+    const username = usernameEl.value.trim();
+    const name = nameEl.value.trim();
+    const email = emailEl.value.trim();
+    const password = passwordEl.value;
+    const role = roleEl.value;
+    const status = statusEl.value;
+    
+    if (!username || !name || !email || !password) {
+        showNotification('Please fill all required fields!', 'error');
+        return;
+    }
+    
+    if (users[username]) {
+        showNotification('Username already exists!', 'error');
+        return;
+    }
+    
+    users[username] = {
+        password: password,
+        name: name,
+        email: email,
+        role: role,
+        status: status
+    };
+    
+    showNotification(`User ${username} added successfully!`, 'success');
+    
+    // Clear form
+    usernameEl.value = '';
+    nameEl.value = '';
+    emailEl.value = '';
+    passwordEl.value = '';
+    roleEl.value = 'student';
+    statusEl.value = 'active';
+    
+    // Refresh admin panel to update stats
+    loadAdminPanel();
+    showAdminTab('users');
+}
+
+// Edit user with enhanced dialog
+function editUser(username) {
+    if (!users[username]) {
+        showNotification('User not found!', 'error');
+        return;
+    }
+    
+    const user = users[username];
+    
+    const newName = prompt('Enter new name:', user.name || '');
+    if (newName === null) return; // User cancelled
+    
+    const newEmail = prompt('Enter new email:', user.email || '');
+    if (newEmail === null) return; // User cancelled
+    
+    const newRole = prompt('Enter new role (student/teacher/admin):', user.role);
+    if (newRole === null) return; // User cancelled
+    
+    const newStatus = prompt('Enter new status (active/inactive):', user.status || 'active');
+    if (newStatus === null) return; // User cancelled
+    
+    // Validate inputs
+    if (!newName.trim() || !newEmail.trim() || !newRole.trim() || !newStatus.trim()) {
+        showNotification('All fields are required!', 'error');
+        return;
+    }
+    
+    if (!['student', 'teacher', 'admin'].includes(newRole.toLowerCase())) {
+        showNotification('Invalid role! Use: student, teacher, or admin', 'error');
+        return;
+    }
+    
+    if (!['active', 'inactive'].includes(newStatus.toLowerCase())) {
+        showNotification('Invalid status! Use: active or inactive', 'error');
+        return;
+    }
+    
+    // Update user
+    users[username].name = newName.trim();
+    users[username].email = newEmail.trim();
+    users[username].role = newRole.toLowerCase();
+    users[username].status = newStatus.toLowerCase();
+    
+    showNotification(`User ${username} updated successfully!`, 'success');
+    
+    // Refresh the panel
+    setTimeout(() => {
+        loadAdminPanel();
+        showAdminTab('users');
+    }, 100);
+}
+
+// Delete user
+function deleteUser(username) {
+    if (!users[username]) {
+        showNotification('User not found!', 'error');
+        return;
+    }
+    
+    if (username === 'admin') {
+        showNotification('Cannot delete admin user!', 'error');
+        return;
+    }
+    
+    if (username === currentUser.username) {
+        showNotification('Cannot delete yourself!', 'error');
+        return;
+    }
+    
+    if (confirm(`Are you sure you want to delete user ${username}?`)) {
+        // Move to deleted users
+        deletedUsers[username] = {
+            ...users[username],
+            deletedDate: new Date().toLocaleString()
+        };
+        
+        // Remove from active users
+        delete users[username];
+        
+        showNotification(`User ${username} deleted successfully!`, 'success');
+        
+        // Refresh the panel
+        setTimeout(() => {
+            loadAdminPanel();
+            showAdminTab('users');
+        }, 100);
+    }
+}
+
+// Recover user
+function recoverUser(username) {
+    if (!deletedUsers[username]) {
+        showNotification('Deleted user not found!', 'error');
+        return;
+    }
+    
+    if (confirm(`Are you sure you want to recover user ${username}?`)) {
+        // Move back to active users
+        const userData = { ...deletedUsers[username] };
+        delete userData.deletedDate;
+        users[username] = userData;
+        
+        // Remove from deleted users
+        delete deletedUsers[username];
+        
+        showNotification(`User ${username} recovered successfully!`, 'success');
+        
+        // Refresh the panel
+        setTimeout(() => {
+            loadAdminPanel();
+            showAdminTab('deleted');
+        }, 100);
+    }
+}
+
+// Permanent delete
+function permanentDelete(username) {
+    if (!deletedUsers[username]) {
+        showNotification('Deleted user not found!', 'error');
+        return;
+    }
+    
+    if (confirm(`Are you sure you want to permanently delete user ${username}? This action cannot be undone!`)) {
+        delete deleteUsers[username];
+                showNotification(`User ${username} permanently deleted!`, 'success');
+                
+                // Refresh the table
+                setTimeout(() => {
+                    showAdminTab('deleted');
+                }, 100);
+            }
+        }
+
+        // Show registration form
+        function showRegister() {
+            showNotification('Registration feature coming soon! Use demo accounts for now.', 'success');
+        }
+
+        // Show notification
+        function showNotification(message, type = 'success') {
+            let notification = document.getElementById('notification');
+            
+            // Create notification element if it doesn't exist
+            if (!notification) {
+                notification = document.createElement('div');
+                notification.id = 'notification';
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    padding: 15px 20px;
+                    border-radius: 5px;
+                    color: white;
+                    z-index: 1000;
+                    transform: translateX(100%);
+                    transition: transform 0.3s ease;
+                    max-width: 300px;
+                `;
+                document.body.appendChild(notification);
+            }
+            
+            notification.textContent = message;
+            
+            // Set colors based on type
+            if (type === 'success') {
+                notification.style.backgroundColor = '#28a745';
+            } else if (type === 'error') {
+                notification.style.backgroundColor = '#dc3545';
+            } else {
+                notification.style.backgroundColor = '#007bff';
+            }
+            
+            // Show notification
+            notification.style.transform = 'translateX(0)';
+            
+            // Hide after 3 seconds
+            setTimeout(() => {
+                notification.style.transform = 'translateX(100%)';
+            }, 3000);
+        }
+
+        //<#Kelvin: kelvin / 112233
+        /* Admin: admin / 123123 (with special privileges)#> */
+        
+        // Initialize app
+        init();
+</script>
+ <style>
+        .footer {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            font-family: Arial, sans-serif;
+        }
+        .footer p {
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="footer">
+        <p>Copyright © EduLearn 2025</p>
+        <p>Kelompok #1</p>
+    </div>
+</body>
+</html>
+ </body>
+</html>
