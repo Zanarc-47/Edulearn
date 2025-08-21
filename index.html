@@ -3380,3 +3380,43 @@ function permanentDelete(username) {
 </html>
  </body>
 </html>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Supabase Test</title>
+</head>
+<body>
+  <h1>Data dari Supabase</h1>
+  <ul id="list"></ul>
+
+  <!-- Supabase via CDN -->
+  <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+  <script>
+    // Inisialisasi client
+    const { createClient } = supabase
+    const supabaseUrl = "https://yczzueababwwoijlakok.supabase.co"
+    const supabaseKey = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inljenp1ZWFiYWJ3d29pamxha29rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTU3NTY3NzksImV4cCI6MjA3MTMzMjc3OX0.7uqxqBX7pgF8rmM8SjyoXA0tmNdY0OJ-vl9oYQhuqHQ"
+    const client = createClient(supabaseUrl, supabaseKey)
+
+    // Contoh ambil data dari tabel "students"
+    async function loadData() {
+      let { data, error } = await client.from("students").select("*")
+      if (error) {
+        console.error(error)
+        return
+      }
+
+      // tampilkan ke halaman
+      const list = document.getElementById("list")
+      data.forEach(item => {
+        const li = document.createElement("li")
+        li.textContent = JSON.stringify(item)
+        list.appendChild(li)
+      })
+    }
+
+    loadData()
+  </script>
+</body>
+</html>
